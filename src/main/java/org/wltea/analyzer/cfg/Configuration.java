@@ -47,6 +47,20 @@ public interface Configuration {
     void setUseSmart(boolean useSmart);
 
     /**
+     * 返回是否使用远程词库标志位
+     *
+     */
+    boolean useRemoteDict();
+
+    /**
+     * 设置useRemoteDict标志位
+     * useRemoteDict =true ，使用远程词库， =false则不使用
+     *
+     * @param useRemoteDict
+     */
+    void setUseRemoteDict(boolean useRemoteDict);
+
+    /**
      * 获取主词典路径
      *
      * @return String 主词典路径
@@ -73,5 +87,18 @@ public interface Configuration {
      * @return List<String> 相对类加载器的路径
      */
     List<String> getExtStopWordDictionarys();
+
+    /**
+     * 获取远程扩展词典配置路径
+     *
+     * @return List<String>
+     */
+    List<String> getRemoteExtDictionarys();
+
+    /**
+     * 获取远程停用词典配置路径
+     * @return List<String>
+     */
+    List<String> getRemoteExtStopWordDictionarys();
 
 }

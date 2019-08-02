@@ -56,11 +56,20 @@ public class DefaultConfig implements Configuration {
     //配置属性——扩展停止词典
     private static final String EXT_STOP = "ext_stopwords";
 
+    private final static  String REMOTE_EXT_DICT = "remote_ext_dict";
+
+    private final static  String REMOTE_EXT_STOP = "remote_ext_stopwords";
+
     private Properties props;
     /**
      * 是否使用smart方式分词
      */
     private boolean useSmart;
+
+    /**
+     * 是否使用远程词库
+     */
+    private boolean useRemoteDict;
 
     /**
      * 初始化配置文件
@@ -108,6 +117,28 @@ public class DefaultConfig implements Configuration {
     @Override
     public void setUseSmart(boolean useSmart) {
         this.useSmart = useSmart;
+    }
+
+    /**
+     * 返回useSmart标志位
+     * useSmart =true ，分词器使用智能切分策略， =false则使用细粒度切分
+     *
+     * @return useSmart
+     */
+    @Override
+    public boolean useRemoteDict() {
+        return useRemoteDict;
+    }
+
+    /**
+     * 设置useRemoteDict标志位
+     * useRemoteDict =true ，使用远程词库， =false则不使用
+     *
+     * @param useRemoteDict
+     */
+    @Override
+    public void setUseRemoteDict(boolean useRemoteDict) {
+        this.useRemoteDict = useRemoteDict;
     }
 
     /**
@@ -174,6 +205,48 @@ public class DefaultConfig implements Configuration {
             }
         }
         return extStopWordDictFiles;
+    }
+
+    /**
+     * 获取远程扩展词典配置路径
+     *
+     * @return List<String>
+     */
+    @Override
+    public List<String> getRemoteExtDictionarys() {
+        List<String> remoteExtDictFiles = new ArrayList<String>(2);
+        String remoteExtDictCfg = props.getProperty(REMOTE_EXT_DICT);
+        if (remoteExtDictCfg != null) {
+
+            String[] filePaths = remoteExtDictCfg.split(";");
+            for (String filePath : filePaths) {
+                if (filePath != null && !"".equals(filePath.trim())) {
+                    remoteExtDictFiles.add(filePath);
+                }
+            }
+        }
+        return remoteExtDictFiles;
+    }
+
+    /**
+     * 获取远程停用词典配置路径
+     * @return List<String>
+     */
+    @Override
+    public List<String> getRemoteExtStopWordDictionarys() {
+        List<String> remoteExtStopWordDictFiles = new ArrayList<String>(2);
+        String remoteExtStopWordDictCfg = props.getProperty(REMOTE_EXT_STOP);
+        if (remoteExtStopWordDictCfg != null) {
+
+            String[] filePaths = remoteExtStopWordDictCfg.split(";");
+            for (String filePath : filePaths) {
+                if (filePath != null && !"".equals(filePath.trim())) {
+                    remoteExtStopWordDictFiles.add(filePath);
+
+                }
+            }
+        }
+        return remoteExtStopWordDictFiles;
     }
 
 }
