@@ -102,15 +102,13 @@ public class Dictionary {
                     singleton.loadQuantifierDict();
                     singleton.loadStopWordDict();
 
-                    if(cfg.useRemoteDict()){
-                        // 建立监控线程
-                        for (String location : cfg.getRemoteExtDictionarys()) {
-                            // 10毫秒是初始延迟可以修改的 60是间隔时间 单位毫秒
-                            pool.scheduleAtFixedRate(new Monitor(location), 0, 10, TimeUnit.SECONDS);
-                        }
-                        for (String location : cfg.getRemoteExtStopWordDictionarys()) {
-                            pool.scheduleAtFixedRate(new Monitor(location), 0, 10, TimeUnit.SECONDS);
-                        }
+                    // 建立监控线程
+                    for (String location : cfg.getRemoteExtDictionarys()) {
+                        // 10毫秒是初始延迟可以修改的 60是间隔时间 单位毫秒
+                        pool.scheduleAtFixedRate(new Monitor(location), 0, 10, TimeUnit.SECONDS);
+                    }
+                    for (String location : cfg.getRemoteExtStopWordDictionarys()) {
+                        pool.scheduleAtFixedRate(new Monitor(location), 0, 10, TimeUnit.SECONDS);
                     }
                     return singleton;
                 }
@@ -396,7 +394,7 @@ public class Dictionary {
     private void loadRemoteExtDict() {
         List<String> remoteExtDictFiles = cfg.getRemoteExtDictionarys();
         for (String location : remoteExtDictFiles) {
-            System.out.println("加载远程扩展词典：" + location);
+            LOG.info("加载远程扩展词典：" + location);
             List<String> lists = getRemoteWords(location);
             // 如果找不到扩展的字典，则忽略
             if (lists == null) {
@@ -418,7 +416,7 @@ public class Dictionary {
     private void loadRemoteExtStopWordDict() {
         List<String> remoteExtStopWordDictFiles = cfg.getRemoteExtStopWordDictionarys();
         for (String location : remoteExtStopWordDictFiles) {
-            System.out.println("加载远程停止词典：" + location);
+            LOG.info("加载远程停止词典：" + location);
             List<String> lists = getRemoteWords(location);
             // 如果找不到扩展的字典，则忽略
             if (lists == null) {

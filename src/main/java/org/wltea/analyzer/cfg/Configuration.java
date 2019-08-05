@@ -47,20 +47,6 @@ public interface Configuration {
     void setUseSmart(boolean useSmart);
 
     /**
-     * 返回是否使用远程词库标志位
-     *
-     */
-    boolean useRemoteDict();
-
-    /**
-     * 设置useRemoteDict标志位
-     * useRemoteDict =true ，使用远程词库， =false则不使用
-     *
-     * @param useRemoteDict
-     */
-    void setUseRemoteDict(boolean useRemoteDict);
-
-    /**
      * 获取主词典路径
      *
      * @return String 主词典路径
