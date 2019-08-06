@@ -420,11 +420,10 @@ public class Dictionary {
         get.setConfig(rc);
         try {
             response = httpclient.execute(get);
-            if (response.getStatusLine().getStatusCode() == 200) {
-
+            if (response.getStatusLine().getStatusCode() == 200 && response.getEntity() != null) {
                 String charset = "UTF-8";
                 // 获取编码，默认为utf-8
-                if (response.getEntity().getContentType().getValue().contains("charset=")) {
+                if (response.getEntity().getContentType() != null && response.getEntity().getContentType().getValue().contains("charset=")) {
                     String contentType = response.getEntity().getContentType().getValue();
                     charset = contentType.substring(contentType.lastIndexOf("=") + 1);
                 }
