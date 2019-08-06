@@ -8,10 +8,4 @@
     <!--用户可以在这里配置自己的扩展停止词字典-->
     <entry key="ext_stopwords">stopword.dic;</entry>
 
-    <!--用户可以在这里配置远程扩展字典 -->
-    <entry key="remote_ext_dict">http://192.168.0.1:8080/ext.dic</entry>
-
-    <!--用户可以在这里配置远程扩展停止词字典 -->
-    <entry key="remote_ext_stopwords">http://192.168.0.1:8080/stopword.dic</entry>
-
 </properties>

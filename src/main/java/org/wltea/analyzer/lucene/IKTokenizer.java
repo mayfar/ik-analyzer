@@ -71,6 +71,13 @@ public final class IKTokenizer extends Tokenizer {
         ikimplement = new IKSegmenter(input, useSmart);
     }
 
+    public IKTokenizer(boolean useSmart, String remoteExtDict) {
+        offsetAtt = addAttribute(OffsetAttribute.class);
+        termAtt = addAttribute(CharTermAttribute.class);
+        typeAtt = addAttribute(TypeAttribute.class);
+        ikimplement = new IKSegmenter(input, useSmart, remoteExtDict);
+    }
+
     @Override
     public boolean incrementToken() throws IOException {
         //清除所有的词元属性

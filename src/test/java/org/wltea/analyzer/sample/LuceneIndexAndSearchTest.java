@@ -106,7 +106,7 @@ public class LuceneIndexAndSearchTest {
             System.out.println("命中：" + topDocs.totalHits);
             //输出结果
             ScoreDoc[] scoreDocs = topDocs.scoreDocs;
-            for (int i = 0; i < topDocs.totalHits.value; i++) {
+            for (int i = 0; i < topDocs.totalHits; i++) {
                 Document targetDoc = isearcher.doc(scoreDocs[i].doc);
                 System.out.println("内容：" + targetDoc.toString());
             }

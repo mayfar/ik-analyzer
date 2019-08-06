@@ -34,6 +34,8 @@ public final class IKAnalyzer extends Analyzer {
 
     private boolean useSmart;
 
+    private String remoteExtDict;
+
     /**
      * IK分词器Lucene  Analyzer接口实现类
      * <p>
@@ -53,6 +55,12 @@ public final class IKAnalyzer extends Analyzer {
         this.useSmart = useSmart;
     }
 
+    public IKAnalyzer(boolean useSmart, String remoteExtDict) {
+        super();
+        this.useSmart = useSmart;
+        this.remoteExtDict = remoteExtDict;
+    }
+
     public boolean useSmart() {
         return useSmart;
     }
@@ -61,12 +69,20 @@ public final class IKAnalyzer extends Analyzer {
         this.useSmart = useSmart;
     }
 
+    public String getRemoteExtDict() {
+        return remoteExtDict;
+    }
+
+    public void setRemoteExtDict(String remoteExtDict) {
+        this.remoteExtDict = remoteExtDict;
+    }
+
     /**
      * 重载Analyzer接口，构造分词组件
      */
     @Override
     protected TokenStreamComponents createComponents(String fieldName) {
-        Tokenizer iktokenizer = new IKTokenizer(this.useSmart());
+        Tokenizer iktokenizer = new IKTokenizer(this.useSmart(), this.getRemoteExtDict());
         return new TokenStreamComponents(iktokenizer);
     }
 

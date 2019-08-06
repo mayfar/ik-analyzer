@@ -66,6 +66,8 @@ public class DefaultConfig implements Configuration {
      */
     private boolean useSmart;
 
+    private String remoteExtDict;
+
     /**
      * 初始化配置文件
      */
@@ -112,6 +114,16 @@ public class DefaultConfig implements Configuration {
     @Override
     public void setUseSmart(boolean useSmart) {
         this.useSmart = useSmart;
+    }
+
+    @Override
+    public String getRemoteExtDict() {
+        return remoteExtDict;
+    }
+
+    @Override
+    public void setRemoteExtDict(String remoteExtDict) {
+        this.remoteExtDict = remoteExtDict;
     }
 
     /**

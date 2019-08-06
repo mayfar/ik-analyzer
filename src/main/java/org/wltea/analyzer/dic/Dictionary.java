@@ -103,12 +103,8 @@ public class Dictionary {
                     singleton.loadStopWordDict();
 
                     // 建立监控线程
-                    for (String location : cfg.getRemoteExtDictionarys()) {
-                        // 10毫秒是初始延迟可以修改的 60是间隔时间 单位毫秒
-                        pool.scheduleAtFixedRate(new Monitor(location), 0, 10, TimeUnit.SECONDS);
-                    }
-                    for (String location : cfg.getRemoteExtStopWordDictionarys()) {
-                        pool.scheduleAtFixedRate(new Monitor(location), 0, 10, TimeUnit.SECONDS);
+                    if(cfg.getRemoteExtDict() != null){
+                        pool.scheduleAtFixedRate(new Monitor(cfg.getRemoteExtDict()), 0, 60, TimeUnit.SECONDS);
                     }
                     return singleton;
                 }
@@ -349,8 +345,6 @@ public class Dictionary {
             }
         }
 
-        //加载远程自定义停止词词典
-        this.loadRemoteExtStopWordDict();
     }
 
     /**
@@ -392,44 +386,23 @@ public class Dictionary {
      * 加载远程扩展词典到主词库表
      */
     private void loadRemoteExtDict() {
-        List<String> remoteExtDictFiles = cfg.getRemoteExtDictionarys();
-        for (String location : remoteExtDictFiles) {
-            LOG.info("加载远程扩展词典：" + location);
-            List<String> lists = getRemoteWords(location);
-            // 如果找不到扩展的字典，则忽略
-            if (lists == null) {
-                continue;
-            }
-            for (String theWord : lists) {
-                if (theWord != null && !"".equals(theWord.trim())) {
-                    // 加载扩展词典数据到主内存词典中
-                    mainDict.fillSegment(theWord.trim().toLowerCase().toCharArray());
-                }
+        String location = cfg.getRemoteExtDict();
+        if(location == null){
+            return;
+        }
+        LOG.info("加载远程扩展词典：" + location);
+        List<String> lists = getRemoteWords(location);
+        // 如果找不到扩展的字典，则忽略
+        if (lists == null) {
+            return;
+        }
+        for (String theWord : lists) {
+            if (theWord != null && !"".equals(theWord.trim())) {
+                // 加载扩展词典数据到主内存词典中
+                mainDict.fillSegment(theWord.trim().toLowerCase().toCharArray());
             }
         }
-
-    }
-
-    /**
-     * 加载远程扩展词典到主词库表
-     */
-    private void loadRemoteExtStopWordDict() {
-        List<String> remoteExtStopWordDictFiles = cfg.getRemoteExtStopWordDictionarys();
-        for (String location : remoteExtStopWordDictFiles) {
-            LOG.info("加载远程停止词典：" + location);
-            List<String> lists = getRemoteWords(location);
-            // 如果找不到扩展的字典，则忽略
-            if (lists == null) {
-                continue;
-            }
-            for (String theWord : lists) {
-                if (theWord != null && !"".equals(theWord.trim())) {
-                    // 加载扩展词典数据到主内存词典中
-                    mainDict.fillSegment(theWord.trim().toLowerCase().toCharArray());
-                }
-            }
-        }
-
+        LOG.info("加载远程扩展词典size：" + lists.size());
     }
 
     /**
@@ -481,13 +454,10 @@ public class Dictionary {
      *
      */
     public void reloadMainDict() {
+        LOG.info("开始重新加载远程词库...");
         // 新开一个实例加载词典，减少加载过程对当前词典使用的影响
         Dictionary tmpDict = new Dictionary(cfg);
-        tmpDict.cfg = getSingleton().cfg;
-        tmpDict.loadMainDict();
-        tmpDict.loadStopWordDict();
         mainDict = tmpDict.mainDict;
-        stopWordDict = tmpDict.stopWordDict;
     }
 
 }

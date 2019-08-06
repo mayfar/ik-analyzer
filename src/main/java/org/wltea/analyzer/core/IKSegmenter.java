@@ -68,6 +68,24 @@ public final class IKSegmenter {
      * IK分词器构造函数
      *
      * @param input
+     * @param useSmart 为true，使用智能分词策略
+     *                 <p>
+     *                 非智能分词：细粒度输出所有可能的切分结果
+     *                 智能分词： 合并数词和量词，对分词结果进行歧义判断
+     * @param remoteExtDict 支持远程词库
+     */
+    public IKSegmenter(Reader input, boolean useSmart, String remoteExtDict) {
+        this.input = input;
+        this.cfg = DefaultConfig.getInstance();
+        this.cfg.setUseSmart(useSmart);
+        this.cfg.setRemoteExtDict(remoteExtDict);
+        this.init();
+    }
+
+    /**
+     * IK分词器构造函数
+     *
+     * @param input
      * @param cfg   使用自定义的Configuration构造分词器
      */
     public IKSegmenter(Reader input, Configuration cfg) {

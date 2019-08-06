@@ -47,6 +47,20 @@ public interface Configuration {
     void setUseSmart(boolean useSmart);
 
     /**
+     * 返回remoteExtDict
+     *
+     * @return  remoteExtDict
+     */
+    String getRemoteExtDict();
+
+    /**
+     * 设置remoteExtDict
+     *
+     * @param remoteExtDict
+     */
+    void setRemoteExtDict(String remoteExtDict);
+
+    /**
      * 获取主词典路径
      *
      * @return String 主词典路径
