@@ -9,6 +9,7 @@ IKAnalyzer的作者为林良益（linliangyi2007@gmail.com），项目网站为<
 - Maven化, 代码格式化
 - 添加了不少停用词，使其适用于中文分词
 - 全面支持的lucene全系列版本为5/6/7/8, 持续技术支持 
+- 支持加载远程扩展词库，可通过构造方法传入远程词库地址 new IKAnalyzer(useSmart, romoteExtDict)
 
 Maven用法：
 
@@ -29,7 +30,3 @@ Maven用法：
     mvn clean install -Dmaven.test.skip=true
 ```
 
----
-关于我
-
-请访问 <https://www.shenyanchao.cn>
